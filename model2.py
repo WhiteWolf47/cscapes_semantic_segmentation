@@ -152,7 +152,7 @@ def prepare_tensor_dataset(train_path, val_path):
 
     return X_train, Y_train, X_val, Y_val
 
-X_train, Y_train, X_valid, Y_valid = prepare_tensor_dataset("../input/cityscapes-image-pairs/cityscapes_data/train/", "../input/cityscapes-image-pairs/cityscapes_data/val/")
+X_train, Y_train, X_valid, Y_valid = prepare_tensor_dataset("./train/", "./val/")
 
 X_train = np.array(X_train)
 Y_train = np.array(Y_train)
@@ -276,7 +276,34 @@ class VizCallback(tf.keras.callbacks.Callback):
         axes[1].imshow(y_pred)
         axes[1].set_title("Predicted Mask")
         plt.tight_layout()
+ 
+ 
         plt.show()
+
+#check if the image is a jpg
+def check_jpg(path):
+    img = Image.open(path)
+    if img.format == "JPEG":
+        return True
+
+#convert the image to 512x256 pixels
+def convert_image(path):
+    img = Image.open(path)
+    img = img.resize((512, 256))
+    
+    return img
+
+#make predictions on the input image
+def predict_image(path):
+    img, mask = preprocess(path)
+    img = np.array(img)
+    img = np.reshape(img, (1, 128, 128, 3))
+    pred = model.predict(img)
+    y_pred = tf.math.argmax(pred, axis=-1)
+    y_pred = np.array(y_pred)
+    y_pred = np.reshape(y_pred, (128, 128))
+    return y_pred
+
 
 def plot_history(history):
   fig, axes = plt.subplots(nrows = 1, ncols = 3, figsize=(20, 7))

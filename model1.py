@@ -76,6 +76,7 @@ def give_color_to_seg_img(seg, n_classes=N_CLASSES):
 
     return(seg_img)
 
+
 classes = 13
 
 train_folder = "./train"
