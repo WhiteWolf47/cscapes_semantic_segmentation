@@ -1,3 +1,3 @@
 # cscapes_semantic_segmentation
 
-Havent added dataset images because it exceeds gh upload limit
+Models were trained on my local machine and continuous learning paradigm is implemented using mlflow but web deployed hasnt been done yet.
